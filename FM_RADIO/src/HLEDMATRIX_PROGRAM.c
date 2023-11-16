@@ -1,0 +1,185 @@
+/*
+ * HLEDMatrix_Program.c
+ *
+ *  Created on: Sep 24, 2023
+ *      Author: PC
+ */
+
+#ifndef HLEDMATRIX_PROGRAM_C_
+#define HLEDMATRIX_PROGRAM_C_
+
+#include "../include/BIT_MATH.h"
+#include "../include/STD_Types.h"
+
+#include "../include/HLEDMatrix_interface.h"
+#include "../include/SYSTICK_INTERFACE.h"
+#include "../include/GPIO_INTERFACE.h"
+
+
+#define TFT_NOT_USED		0
+#define TFT_USED			1
+
+#define TFT_STATUS			TFT_USED
+
+
+
+void HLEDMATRIX_VoidInit(void)
+{
+	//rows portA
+
+#if 	TFT_STATUS==TFT_NOT_USED
+	MGPIO_SetMode(PORTA,PIN1,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN2,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN5,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN7,OUTPUT);
+
+#elif 	TFT_STATUS==TFT_USED
+	MGPIO_SetMode(PORTA,PIN8,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN9,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN10,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN11,OUTPUT);
+#endif
+
+	MGPIO_SetMode(PORTA,PIN0,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN3,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN4,OUTPUT);
+	MGPIO_SetMode(PORTA,PIN6,OUTPUT);
+
+
+
+#if 	TFT_STATUS==TFT_NOT_USED
+	MGPIO_SetOutputPinMode(PORTA,PIN1,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN2,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN5,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN7,LOW_SPEED,OUTPUT_PUSH_PULL);
+
+#elif 	TFT_STATUS==TFT_USED
+	MGPIO_SetOutputPinMode(PORTA,PIN8,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN9,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN10,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN11,LOW_SPEED,OUTPUT_PUSH_PULL);
+#endif
+
+
+
+	MGPIO_SetOutputPinMode(PORTA,PIN0,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN3,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN4,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTA,PIN6,LOW_SPEED,OUTPUT_PUSH_PULL);
+
+
+
+	//colums port b
+	MGPIO_SetMode(PORTB,PIN0,OUTPUT);
+	MGPIO_SetMode(PORTB,PIN1,OUTPUT);
+	MGPIO_SetMode(PORTB,PIN2,OUTPUT);
+	MGPIO_SetMode(PORTB,PIN5,OUTPUT);
+	MGPIO_SetMode(PORTB,PIN6,OUTPUT);
+	MGPIO_SetMode(PORTB,PIN7,OUTPUT);
+	MGPIO_SetMode(PORTB,PIN8,OUTPUT);
+	MGPIO_SetMode(PORTB,PIN9,OUTPUT);
+
+	MGPIO_SetOutputPinMode(PORTB,PIN0,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTB,PIN1,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTB,PIN2,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTB,PIN5,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTB,PIN6,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTB,PIN7,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTB,PIN8,LOW_SPEED,OUTPUT_PUSH_PULL);
+	MGPIO_SetOutputPinMode(PORTB,PIN9,LOW_SPEED,OUTPUT_PUSH_PULL);
+
+
+}
+void HLEDMATRIX_VoidDisableRows(void)
+{
+
+#if 	TFT_STATUS==TFT_NOT_USED
+	MGPIO_SetPinValue(PORTA,PIN1,LOW);
+	MGPIO_SetPinValue(PORTA,PIN2,LOW);
+	MGPIO_SetPinValue(PORTA,PIN5,LOW);
+	MGPIO_SetPinValue(PORTA,PIN7,LOW);
+
+#elif 	TFT_STATUS==TFT_USED
+	MGPIO_SetPinValue(PORTA,PIN8,LOW);
+	MGPIO_SetPinValue(PORTA,PIN9,LOW);
+	MGPIO_SetPinValue(PORTA,PIN10,LOW);
+	MGPIO_SetPinValue(PORTA,PIN11,LOW);
+#endif
+
+	MGPIO_SetPinValue(PORTA,PIN0,LOW);
+	MGPIO_SetPinValue(PORTA,PIN3,LOW);
+	MGPIO_SetPinValue(PORTA,PIN4,LOW);
+	MGPIO_SetPinValue(PORTA,PIN6,LOW);
+
+
+}
+void  HLEDMATRIX_VoidSetColumnValue(u8 Copy_u8RowValue)
+{
+	MGPIO_SetPinValue(PORTB,PIN0,!GET_BIT(Copy_u8RowValue,0));
+	MGPIO_SetPinValue(PORTB,PIN1,!GET_BIT(Copy_u8RowValue,1));
+	MGPIO_SetPinValue(PORTB,PIN2,!GET_BIT(Copy_u8RowValue,2));
+	MGPIO_SetPinValue(PORTB,PIN5,!GET_BIT(Copy_u8RowValue,3));
+	MGPIO_SetPinValue(PORTB,PIN6,!GET_BIT(Copy_u8RowValue,4));
+	MGPIO_SetPinValue(PORTB,PIN7,!GET_BIT(Copy_u8RowValue,5));
+	MGPIO_SetPinValue(PORTB,PIN8,!GET_BIT(Copy_u8RowValue,6));
+	MGPIO_SetPinValue(PORTB,PIN9,!GET_BIT(Copy_u8RowValue,7));
+
+}
+void  HLEDMATRIX_VoidSDisplay(u8 *Copy_u8arr)
+{
+#if 	TFT_STATUS==TFT_NOT_USED
+	for(u8 Local_u8Counter = 0;Local_u8Counter<8;Local_u8Counter++)
+	{
+		HLEDMATRIX_VoidDisableRows();
+		HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[Local_u8Counter]);
+		MGPIO_SetPinValue(PORTA,Local_u8Counter,HIGH);
+		MSYSTICK_voidDelayms(2.5);
+	}
+#elif 	TFT_STATUS==TFT_USED
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[0]);
+	MGPIO_SetPinValue(PORTA,PIN0,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[1]);
+	MGPIO_SetPinValue(PORTA,PIN8,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[2]);
+	MGPIO_SetPinValue(PORTA,PIN9,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[3]);
+	MGPIO_SetPinValue(PORTA,PIN3,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[4]);
+	MGPIO_SetPinValue(PORTA,PIN4,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[5]);
+	MGPIO_SetPinValue(PORTA,PIN10,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[6]);
+	MGPIO_SetPinValue(PORTA,PIN6,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+	HLEDMATRIX_VoidDisableRows();
+	HLEDMATRIX_VoidSetColumnValue(Copy_u8arr[7]);
+	MGPIO_SetPinValue(PORTA,PIN11,HIGH);
+	MSYSTICK_voidDelayms(2.5);
+
+#endif
+}
+
+
+
+#endif /* HLEDMATRIX_PROGRAM_C_ */

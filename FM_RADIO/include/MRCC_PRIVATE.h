@@ -1,0 +1,82 @@
+/*
+ * MRCC_PRIVATE.h
+ *
+ *  Created on: Sep 6, 2023
+ *      Author: Misra
+ */
+
+#ifndef MRCC_PRIVATE_H_
+#define MRCC_PRIVATE_H_
+
+#define RCC_BASE_ADDRESS				(0x40023800)
+
+typedef struct
+{
+	u32 CR;//0X00
+	u32 PLLCFGR;//0X04
+	u32 CFGR;//0X08
+	u32 CIR;//0X0C
+	u32 AHB1RSTR;//0X10
+	u32 AHB2RSTR;//0X14
+	u32 RESERVED1;//0X18
+	u32 RESERVED2;//0X1C
+	u32 APB1RSTR;//0X20
+	u32 APB2RSTR;//0X24
+	u32 RESERVED3;//0X28
+	u32 RESERVED4;//0X2C
+	u32 AHB1ENR;//0X30
+	u32 AHB2ENR;//0X34
+	u32 RESERVED5;//0X38
+	u32 RESERVED6;//0X3C
+	u32 APB1ENR;//0X40
+	u32 APB2ENR;//0X44
+	u32 RESERVED7;//0X48
+	u32 RESERVED8;//0X4C
+	u32 AHB1LPENR;//0X50
+	u32 AHB2LPENR;//0X54
+	u32 RESERVED9;//0X58
+	u32 RESERVED10;//0X5C
+	u32 APB1LPENR;//0X60
+	u32 APB2LPENR;//0X64
+	u32 RESERVED11;//0X68
+	u32 RESERVED12;//0X6C
+	u32 BDCR;//0X70
+	u32 CSR;//0X74
+	u32 RESERVED13;//0X78
+	u32 RESERVED14;//0X7C
+	u32 SSCGR;//0X80
+	u32 PLL12SCFGR;//0X84
+	u32 RESERVED15;//0X88
+	u32 DCKCF;//0X8C
+
+}RCC_t;
+
+
+#define RCC 		((volatile RCC_t*)RCC_BASE_ADDRESS)
+
+
+/*		CR_REGISTER		*/
+#define HSI_ON							0
+#define HSI_RDY							1
+
+#define HSE_ON							16
+#define HSE_RDY							17
+
+#define PLL_ON							24
+#define PLL_RDY							25
+
+
+/******************************************/
+
+#define HSE_RC						0
+#define HSE_CRYSTAL					1
+
+
+#define SWITCH_HSI					0
+#define SWITCH_HSE					1
+#define SWITCH_PLL					2
+
+
+#define	SWITCH_MASK					(0XFFFFFFFCUL)
+
+#endif /* MRCC_PRIVATE_H_ */
